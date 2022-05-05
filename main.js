@@ -1,5 +1,6 @@
 img = "";
 Status = "";
+objects = [];
 
 function preload(){
     img = loadImage('dog_cat.jpg');
@@ -24,20 +25,25 @@ if (error){
     console.log(error);
 }
 console.log(results);
+objects = results;
 }
 
 function draw(){
     image(img, 0, 0, 640, 420);
     
-    fill("#4663e3");
-    text("Dog", 175 , 75);
-    noFill();
-    stroke("#4663e3");
-    rect(150, 60, 200 , 350);
+   if(Status != ""){
+        for(v = 0; v< objects.length; v++)
+        {
+            document.getElementById("status").innerHTML = "Status : Object Detected";
 
-    fill("#4663e3");
-    text("Cat", 352 , 100);
-    noFill();
-    stroke("#4663e3");
-    rect(310, 85, 230 , 300);
+            fill("#0ca886");
+            percent = floor(objects[v].confidence * 100);
+            text(objects[v].label + " " + percent + "%", objects[v].x + 15, objects[v].y + 15);
+            noFill();
+            stroke("#0ca886");
+            rect(objects[v].x, objects[v].y, objects[v].width, objects[v].height);
+            
+        }
+
+   }
 }
